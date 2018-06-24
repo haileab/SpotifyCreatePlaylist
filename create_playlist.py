@@ -18,8 +18,8 @@ class FindSongs():
         Removes punctuation and lowercases the string.
         '''
         exclude = set(string.punctuation)
-        s = ''.join(ch.lower() for ch in s if ch not in exclude)
-        return s
+        clean = ''.join(ch.lower() for ch in s if ch not in exclude)
+        return clean
 
 
     def split_search(self, string):
@@ -54,20 +54,15 @@ class FindSongs():
         '''
         Searches spotify for the "string" returns first result if it exists.
         '''
-        input = '"'+input+'"'
+        input = '"'+input+'"' #adds quotes to string, to search for phrase
 
         results = sp.search(q='track:' + input , type='track', limit=20)
-        #print(type(results))
+
         try:
-
-            song0 = results['tracks']['items'][0]['name']
-            print(song0)
-
+            song_0 = results['tracks']['items'][0]['name'] #exits try statement if no result (no first song)
             num_of_songs = len(results['tracks']['items'])
-
-            #checks if we have at least one result
-            if type(song0) == str:
-                print('Entered loop')
+            # iterate through the search results and search for exact match
+            if num_of_songs != 0:
                 for i in range(num_of_songs):
                     song = results['tracks']['items'][i]['name']
                     clean_song_result = self.clean_string(song)
@@ -79,9 +74,10 @@ class FindSongs():
                             'player_link': results['tracks']['items'][i]['external_urls']['spotify']
                             }
                         return d
-
                 return False
+
         except:
+            #no search results
             return False
 
 #print(results)
@@ -92,7 +88,7 @@ if __name__ == '__main__':
     # else:
     #     print ("Missing: %s string_to_search" % (sys.argv[0],))
     #     sys.exit()
-    s = "Today is Sunday and it is gay pride weekend"
+    s = "If I can't let it go out of my mind"
     test = FindSongs()
     clean = test.clean_string(s)
     test.split_search(clean)
