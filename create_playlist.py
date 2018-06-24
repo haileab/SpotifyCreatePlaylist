@@ -22,25 +22,22 @@ class FindSongs():
         return clean
 
 
-    def split_search(self, string):
-
+    def split_search(self, input):
+        '''
+        Loops through given string, reducing each iteration by one word and sending sub_string to the seach_sub.
+        '''
         self.trials += 1
-        song_words = [x for x in string.split(" ")]
+        song_words = [x for x in input.split(" ")]
         for i in reversed(range(len(song_words))):
-            input = " ".join(song_words[0:i+1])
+            sub_string = " ".join(song_words[0:i+1])
             remainder = " ".join(song_words[i+1:])
-            print('running loop:', i,"s:", "t:", input)
-            print(f"searching res1:{input}")
-            search_res = self.search_sub(input)
+            print(f"searching sub_string:{sub_string}")
+            search_res = self.search_sub(sub_string)
 
 
             if search_res != False:
-                print('appending:')
+                print('Match!!!, appending:', search_res)
                 self.result.append(search_res)
-                print('result_dic:',self.result)
-                print("-" * 20, i)
-                print(remainder == "")
-
                 if remainder == "":
                     print("Done HURRAY!!!!!!!!!")
                     print(self.result)
@@ -68,9 +65,9 @@ class FindSongs():
                     clean_song_result = self.clean_string(song)
 
                     if clean_song_result == input.strip('"'):
-                        print('match')
-                        d = {'artist': results['tracks']['items'][i]['artists'][0]['name'],
+                        d = {
                             'song': results['tracks']['items'][i]['name'],
+                            'artist': results['tracks']['items'][i]['artists'][0]['name'],
                             'player_link': results['tracks']['items'][i]['external_urls']['spotify']
                             }
                         return d
@@ -80,7 +77,7 @@ class FindSongs():
             #no search results
             return False
 
-#print(results)
+
 if __name__ == '__main__':
 
     # if len(sys.argv) > 1:
