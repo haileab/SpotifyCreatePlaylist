@@ -88,7 +88,7 @@ if __name__ == '__main__':
     # else:
     #     print ("Missing: %s string_to_search" % (sys.argv[0],))
     #     sys.exit()
-    s = "If I can't let it go out of my mind"
+    s = "In three words I can sum up everything I know about life: it goes on"
     test = FindSongs()
     clean = test.clean_string(s)
     test.split_search(clean)
